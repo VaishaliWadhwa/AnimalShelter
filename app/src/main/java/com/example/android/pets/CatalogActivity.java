@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+
 import com.example.android.pets.data.PetContract.PetEntry;
 import com.example.android.pets.data.PetDbHelper;
 
@@ -50,19 +51,29 @@ public class CatalogActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
                 startActivity(intent);
+
             }
-        });
+
+        });     mDbHelper = new PetDbHelper(this);
+
+
+        SQLiteDatabase db = mDbHelper.getReadableDatabase(); }
+
+
+
+
+
+        @Override     protected void onStart() {            super.onStart();
+            displayDatabaseInfo();
+        }
+
 
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
-        mDbHelper = new PetDbHelper(this);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }
+        // displayDatabaseInfo();
+   // }
+
 
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
@@ -178,7 +189,7 @@ public class CatalogActivity extends AppCompatActivity {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
                 insertPet();
-                displayDatabaseInfo();
+               // displayDatabaseInfo();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
