@@ -1,8 +1,10 @@
 
         package com.example.android.pets.data;
 
+        import android.content.ContentResolver;
         import android.net.Uri;
         import android.provider.BaseColumns;
+
 
 /**
  * API Contract for the Pets app.
@@ -12,6 +14,10 @@ public final class PetContract {
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
     private PetContract() {}
+
+    /**.
+     */
+
 
     /**
      * The "Content authority" is a name for the entire content provider, similar to the
@@ -35,11 +41,17 @@ public final class PetContract {
      */
     public static final String PATH_PETS = "pets";
 
+
+
     /**
      * Inner class that defines constant values for the pets database table.
      * Each entry in the table represents a single pet.
      */
     public static final class PetEntry implements BaseColumns {
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PETS;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PETS;
 
         /** The content URI to access the pet data in the provider */
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PETS);
@@ -84,6 +96,12 @@ public final class PetContract {
          * Type: INTEGER
          */
         public final static String COLUMN_PET_WEIGHT = "weight";
+        public static boolean isValidGender(int gender) {
+            if (gender == GENDER_UNKNOWN || gender == GENDER_MALE || gender == GENDER_FEMALE) {
+                return true;
+            }
+            return false;
+        }
 
         /**
          * Possible values for the gender of the pet.
